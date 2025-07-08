@@ -1,1 +1,1 @@
-{"root":["./src/app.ts","./src/sever.ts","./src/config/env.ts","./src/config/prisma.ts"],"version":"5.8.3"}
+{"root":["./src/app.ts","./src/server.ts","./src/config/env.ts","./src/config/prisma.ts","./src/controllers/auth.controllers.ts","./src/controllers/blog.controllers.ts","./src/controllers/user.controllers.ts","./src/middlewares/auth.middleware.ts","./src/routes/auth.routes.ts","./src/routes/blog.routes.ts","./src/routes/user.routes.ts"],"version":"5.8.3"}

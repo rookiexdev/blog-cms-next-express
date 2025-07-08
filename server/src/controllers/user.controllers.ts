@@ -14,7 +14,14 @@ export const getUserInfo = async (req: any, res: Response) => {
     if (!user) {
       res.status(401).json({ message: "User not found", success: false });
     }
-    res.status(200).json(user);
+    res
+      .status(200)
+      .json({
+        message: "Authenticated",
+        isAuthenticated: true,
+        user,
+        success: true,
+      });
   } catch (error) {
     res.status(500).json({ message: "Error fetching user", success: false });
   }

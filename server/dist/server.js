@@ -14,14 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("./app"));
 const prisma_1 = require("./config/prisma");
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield prisma_1.prisma.$connect();
             console.log("Connected to database");
             app_1.default.listen(port, () => {
-                console.log("Server is running on port 3000");
+                console.log(`Server is running on port ${port}`);
             });
         }
         catch (error) {

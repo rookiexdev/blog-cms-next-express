@@ -9,8 +9,8 @@ export const isAuthenticated = (
   next: NextFunction
 ) => {
   try {
-    // const { token } = req.cookies;
-    const token2 = req.headers.token;
+    const { token } = req.cookies;
+    const token2 = token || req.headers.token;
     if (!token2) {
       res.status(401).json({ message: "Unauthorized User" });
     } else {
@@ -21,6 +21,6 @@ export const isAuthenticated = (
       next();
     }
   } catch (error) {
-    res.status(401).json({ message: "Unauthorized User >>>>>>>>> " });
+    res.status(401).json({ message: "Unauthorized User " });
   }
 };

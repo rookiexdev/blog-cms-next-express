@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createBlog = exports.getAllBlogs = void 0;
+exports.getBlogById = exports.createBlog = exports.getAllBlogs = void 0;
 const prisma_1 = require("../config/prisma");
 const getAllBlogs = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -31,10 +31,8 @@ const getAllBlogs = (_req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.getAllBlogs = getAllBlogs;
 const createBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     try {
-        const userId = (_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.userId;
-        console.log("user id", userId);
+        const userId = req === null || req === void 0 ? void 0 : req.userId;
         if (!req.body) {
             res
                 .status(400)
@@ -67,3 +65,27 @@ const createBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.createBlog = createBlog;
+const getBlogById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const blogId = req.params.id;
+        if (!blogId) {
+            res.status(400).json({ message: "Missing blog id", success: false });
+        }
+        const blog = yield prisma_1.prisma.blog.findUnique({
+            where: { id: blogId },
+            include: {
+                author: {
+                    select: { username: true },
+                },
+            },
+        });
+        if (!blog) {
+            res.status(404).json({ message: "Blog not found", success: false });
+        }
+        res.json(blog);
+    }
+    catch (error) {
+        res.status(500).json({ message: "Error fetching blog", success: false });
+    }
+});
+exports.getBlogById = getBlogById;
