@@ -26,12 +26,13 @@ function Container() {
     if (username && password) {
       signupUser(username, password)
         .then((res) => res.json())
-        .then((data) => {
-          if (data.message === "Signup successful") {
+        .then(({success, message}) => {
+          console.log(success, message);
+          if (success) {
             toast.success("Signup successful");
             router.push("/login");
           } else {
-            toast.error(data.message);
+            toast.error(message);
           }
         })
         .catch((error) => {

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBlogById = exports.createBlog = exports.getAllBlogs = void 0;
+exports.deleteBlogById = exports.getBlogById = exports.createBlog = exports.getAllBlogs = void 0;
 const prisma_1 = require("../config/prisma");
 const getAllBlogs = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -89,3 +89,24 @@ const getBlogById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getBlogById = getBlogById;
+const deleteBlogById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const blogId = req.params.id;
+        if (!blogId) {
+            res.status(400).json({ message: "Missing blog id", success: false });
+        }
+        const blog = yield prisma_1.prisma.blog.delete({
+            where: { id: blogId, authorId: req.userId },
+        });
+        if (!blog) {
+            res.status(404).json({ message: "Blog not found", success: false });
+        }
+        res
+            .status(200)
+            .json({ message: "Blog deleted successfully", success: true });
+    }
+    catch (error) {
+        res.status(500).json({ message: "Error deleting blog", success: false });
+    }
+});
+exports.deleteBlogById = deleteBlogById;

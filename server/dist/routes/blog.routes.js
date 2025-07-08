@@ -7,4 +7,5 @@ const router = (0, express_1.Router)();
 router.get("/", blog_controllers_1.getAllBlogs);
 router.post("/create", auth_middleware_1.isAuthenticated, blog_controllers_1.createBlog);
 router.get("/:id", blog_controllers_1.getBlogById);
+router.delete("/:id", auth_middleware_1.isAuthenticated, blog_controllers_1.deleteBlogById);
 exports.default = router;

@@ -44,7 +44,7 @@ export const createBlog = async (req: any, res: Response) => {
         },
       },
     });
-    
+
     res.status(201).json({
       message: "Blog created successfully",
       success: true,
@@ -76,5 +76,25 @@ export const getBlogById = async (req: Request, res: Response) => {
     res.json(blog);
   } catch (error) {
     res.status(500).json({ message: "Error fetching blog", success: false });
+  }
+};
+
+export const deleteBlogById = async (req: any, res: Response) => {
+  try {
+    const blogId = req.params.id;
+    if (!blogId) {
+      res.status(400).json({ message: "Missing blog id", success: false });
+    }
+    const blog = await prisma.blog.delete({
+      where: { id: blogId, authorId: req.userId },
+    });
+    if (!blog) {
+      res.status(404).json({ message: "Blog not found", success: false });
+    }
+    res
+      .status(200)
+      .json({ message: "Blog deleted successfully", success: true });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting blog", success: false });
   }
 };
