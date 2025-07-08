@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useRef } from "react";
 import toast from "react-hot-toast";
-
+import Cookies from "js-cookie";
 
 export default function LoginPage() {
   return (
@@ -28,12 +28,17 @@ function Container() {
     if (username && password) {
       loginUser(username, password)
         .then((res) => res.json())
-        .then((data) => {
-          if (data.message === "Login successful") {
+        .then(({ token, success, message }) => {
+          if (success) {
+            Cookies.set("token", token, {
+              expires: 7,
+              secure: true,
+              sameSite: "Lax",
+            });
             toast.success("Login successful");
             router.push("/");
           } else {
-            toast.error(data.message);
+            toast.error(message);
           }
         })
         .catch((error) => {

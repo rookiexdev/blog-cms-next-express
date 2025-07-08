@@ -3,7 +3,6 @@ import { Blog } from "@/types";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Loading from "./Loading";
-import Link from "next/link";
 
 export default function BlogDetailsPage({ blogId }: { blogId: string }) {
   const [blog, setBlog] = useState<Blog | null>(null);
